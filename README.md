@@ -1,7 +1,7 @@
 # TCP Client-Server Application
 
 This project implements a simple TCP client-server application using Linux sockets in C++. </br>
-The server listens on a specified port and logs messages from connected clients.
+The server listens on a specified port and logs messages from connected clients. </br>
 Each client connects to the server at specified intervals and sends a message containing its name and a timestamp.
 
 ## Features
