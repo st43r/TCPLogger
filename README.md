@@ -68,13 +68,13 @@ You can compile the project using `g++` without CMake. This involves compiling t
 Run the server with the port number on which it should listen.
 
 ```bash
-./server <port>
+./Server <port>
 ```
 
 Example:
 
 ```bash
-./server 3000
+./Server 3000
 ```
 
 ### Start the Clients
@@ -86,15 +86,15 @@ Run the client with the following parameters:
 3. **Interval**: The interval in seconds between sending messages.
 
 ```bash
-./client <name> <port> <interval>
+./Client <name> <port> <interval>
 ```
 
 Example:
 
 ```bash
-./client Name1 3000 1
-./client Name2 3000 2
-./client Name3 3000 3
+./Client Name1 3000 1
+./Client Name2 3000 2
+./Client Name3 3000 3
 ```
 
 ### Log Output
