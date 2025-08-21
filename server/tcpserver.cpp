@@ -4,6 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <ctime>
+#include <chrono>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -34,12 +35,20 @@ void handleClient(const int client_socket) {
 
     while ((bytes_read = read(client_socket, buffer, sizeof(buffer) - 1)) > 0) {
         buffer[bytes_read] = '\0';
-        time_t now = time(0);
-        struct tm *ltm = localtime(&now);
+
+        auto now = std::chrono::system_clock::now();
+        std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+        struct tm ltm{};
+        localtime_r(&now_time, &ltm);
+        int ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                     now.time_since_epoch())
+                     .count() %
+                 1000;
         char timestamp[64];
-        snprintf(timestamp, sizeof(timestamp), "[%d-%02d-%02d %02d:%02d:%02d.%03d] ",
-                 1900 + ltm->tm_year, 1 + ltm->tm_mon, ltm->tm_mday,
-                 ltm->tm_hour, ltm->tm_min, ltm->tm_sec, 0);
+        snprintf(timestamp, sizeof(timestamp),
+                 "[%d-%02d-%02d %02d:%02d:%02d.%03d] ",
+                 1900 + ltm.tm_year, 1 + ltm.tm_mon, ltm.tm_mday, ltm.tm_hour,
+                 ltm.tm_min, ltm.tm_sec, ms);
         logMessage(std::string(timestamp) + buffer);
     }
 
